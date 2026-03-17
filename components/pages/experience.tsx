@@ -12,7 +12,7 @@ const experiences: Experience[] = [
     {
         logo: "/logo2.png",
         company: "Oronium",
-        position: "SDE Intern",
+        position: "SDE-1",
         duration: "Dec 2025 - Present",
         location: "Remote",
     },
