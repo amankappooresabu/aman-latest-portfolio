@@ -4,7 +4,7 @@ A minimal, fast, and responsive personal portfolio built with Next.js and Bun.
 
 ## Tech Stack
 
-- **Framework** — Next.js 15 (App Router)
+- **Framework** — Next.js 15 
 - **Runtime** — Bun
 - **Styling** — Tailwind CSS
 - **Components** — shadcn/ui
