@@ -36,7 +36,7 @@ function createMcpServer() {
 
       const result = await sheets.spreadsheets.values.get({
         spreadsheetId: SHEET_ID,
-        range: "Sheet1!A2:B",
+        range: "Menu!A:B",
       });
 
       return {
@@ -64,7 +64,7 @@ function createMcpServer() {
 
       const result = await sheets.spreadsheets.values.get({
         spreadsheetId: SHEET_ID,
-        range: "Sheet1!A2:B",
+        range: "Menu!A2:B",
       });
 
       const rows = result.data.values ?? [];
