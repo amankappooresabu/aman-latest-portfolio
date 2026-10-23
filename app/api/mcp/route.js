@@ -1,14 +1,12 @@
+
 import { google } from "googleapis";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import { WebStandardStreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js";
 import { z } from "zod";
 
-export const dynamic = "force-dynamic";
+const SHEET_ID = "1GHNBichDWn4qB4LLeHCQygBwdzpSf7L8KcUraQ0NQgc";
 
-const SHEET_ID =
-  "1GHNBichDWn4qB4LLeHCQygBwdzpSf7L8KcUraQ0NQgc";
-
-function getSheets() {
+async function getSheets() {
   const credentials = JSON.parse(
     process.env.GOOGLE_SERVICE_ACCOUNT_JSON
   );
@@ -23,7 +21,7 @@ function getSheets() {
 
 function createMcpServer() {
   const server = new McpServer({
-    name: "foodee-mcp-test",
+    name: "Foodee MCP Test",
     version: "1.0.0",
   });
 
@@ -34,7 +32,7 @@ function createMcpServer() {
       inputSchema: {},
     },
     async () => {
-      const sheets = getSheets();
+      const sheets = await getSheets();
 
       const result = await sheets.spreadsheets.values.get({
         spreadsheetId: SHEET_ID,
@@ -45,7 +43,7 @@ function createMcpServer() {
         content: [
           {
             type: "text",
-            text: JSON.stringify(result.data.values ?? [], null, 2),
+            text: JSON.stringify(result.data.values ?? []),
           },
         ],
       };
@@ -58,11 +56,11 @@ function createMcpServer() {
       description: "Update a menu item's price",
       inputSchema: {
         item_name: z.string(),
-        price: z.number().positive(),
+        price: z.number(),
       },
     },
     async ({ item_name, price }) => {
-      const sheets = getSheets();
+      const sheets = await getSheets();
 
       const result = await sheets.spreadsheets.values.get({
         spreadsheetId: SHEET_ID,
@@ -70,14 +68,13 @@ function createMcpServer() {
       });
 
       const rows = result.data.values ?? [];
-
-      const index = rows.findIndex(
-        (row, i) =>
-          i > 0 &&
-          String(row[0]).toLowerCase() === item_name.toLowerCase()
+      const rowIndex = rows.findIndex(
+        (row, index) =>
+          index > 0 &&
+          row[0]?.toLowerCase() === item_name.toLowerCase()
       );
 
-      if (index === -1) {
+      if (rowIndex === -1) {
         return {
           content: [
             { type: "text", text: `Item not found: ${item_name}` },
@@ -87,7 +84,7 @@ function createMcpServer() {
 
       await sheets.spreadsheets.values.update({
         spreadsheetId: SHEET_ID,
-        range: `Menu!B${index + 1}`,
+        range: `Menu!B${rowIndex + 1}`,
         valueInputOption: "USER_ENTERED",
         requestBody: {
           values: [[price]],
@@ -108,21 +105,22 @@ function createMcpServer() {
   return server;
 }
 
-export async function POST(request) {
-  const server = createMcpServer();
-
-  const transport = new StreamableHTTPServerTransport({
-    sessionIdGenerator: undefined,
-  });
-
-  await server.connect(transport);
-
-  return transport.handleRequest(request);
-}
-
 export async function GET() {
   return Response.json({
     name: "Foodee MCP Test",
     status: "running",
   });
+}
+
+export async function POST(request) {
+  const server = createMcpServer();
+
+  const transport =
+    new WebStandardStreamableHTTPServerTransport({
+      sessionIdGenerator: undefined,
+    });
+
+  await server.connect(transport);
+
+  return transport.handleRequest(request);
 }
