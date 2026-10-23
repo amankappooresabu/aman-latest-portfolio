@@ -36,7 +36,7 @@ function createMcpServer() {
 
       const result = await sheets.spreadsheets.values.get({
         spreadsheetId: SHEET_ID,
-        range: "Menu!A:B",
+        range: "Sheet1!A2:B",
       });
 
       return {
@@ -64,16 +64,15 @@ function createMcpServer() {
 
       const result = await sheets.spreadsheets.values.get({
         spreadsheetId: SHEET_ID,
-        range: "Menu!A:B",
+        range: "Sheet1!A2:B",
       });
 
       const rows = result.data.values ?? [];
       const rowIndex = rows.findIndex(
-        (row, index) =>
-          index > 0 &&
-          row[0]?.toLowerCase() === item_name.toLowerCase()
+        (row) =>
+          row[0]?.trim().toLowerCase() === item_name.trim().toLowerCase()
       );
-
+      
       if (rowIndex === -1) {
         return {
           content: [
@@ -81,10 +80,12 @@ function createMcpServer() {
           ],
         };
       }
+      
+      const rowNumber = rowIndex + 2;
 
       await sheets.spreadsheets.values.update({
         spreadsheetId: SHEET_ID,
-        range: `Menu!B${rowIndex + 1}`,
+        range: `Menu!B${rowNumber}`,
         valueInputOption: "USER_ENTERED",
         requestBody: {
           values: [[price]],
