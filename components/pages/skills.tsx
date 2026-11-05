@@ -1,19 +1,18 @@
 import { SkillTag } from "@/components/ui/skilltag";
 
 const skills = [
-  "TypeScript",
-  "JavaScript",
+  "Js & Ts",
+  "Python",
   "React",
   "AI/ML",
   "Langchain",
   "Next.js",
   "Node.js",
-  "Tailwind CSS",
   "PostgreSQL",
+  "AWS",
   "MongoDB",
   "Bun.js",
   "Git",
-  "Supabase",
   "Express.js",
 ];
 

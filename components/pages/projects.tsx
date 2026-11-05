@@ -14,28 +14,28 @@ type Project = {
 
 const projects: Project[] = [
   {
-    name: "ERP Management Dashboard",
-    date: "August 2025",
-    description: "Comprehensive enterprise resource planning system with visual project management features.",
-    image: "/project1.png",
-    skills: ["Next.js", "TypeScript", "Firebase"],
-    website: "https://aedasdashboardlatestbuild.netlify.app/"
+    name: "SeekNdScout",
+    date: "October 2026",
+    description: "SeekNdScout aggregates jobs scattered across company career pages, job boards, and startup listings into one unified feed.",
+    image: "/project4.png",
+    skills: ["Next.js", "Node.js", "PostgreSQL", "AWS EC2"],
+    website: "https://seekndscout.site/"
   },
     {
+    name: "Reminder Scheduling System",
+    date: "November 2026",
+    description: "A serverless reminder scheduling system built with Node.js, AWS Lambda, Amazon EventBridge Scheduler, and Brevo. It automatically sends scheduled email reminders with payment links.",
+    image: "/project5.png",
+    skills: ["Node.js", "AWS Lambda", "Amazon EventBridge", "Brevo"],
+    website: "https://github.com/amankappooresabu/monthly-payment-reminder.git"
+  },
+  {
     name: "AI Mock Interview Platform",
     date: "April 2025",
     description: "A platform that uses AI to simulate mock interviews, providing feedback and performance analysis.",
     image: "/project2.png",
     skills: ["Next.js", "TypeScript", "NeonDB", "Gemini API"],
     website: "https://ai-interview-mocker-two-blush.vercel.app/"
-  },
-    {
-    name: "Smart Bookmark Manager",
-    date: "December 2025",
-    description: "A platform to manage and organize bookmarks efficiently with real-time features.",
-    image: "/project3.png",
-    skills: ["Next.js", "TypeScript", "Supabase", "Google OAuth"],
-    website: "https://smart-bookmark-three-lilac.vercel.app/"
   },
 ];
 
